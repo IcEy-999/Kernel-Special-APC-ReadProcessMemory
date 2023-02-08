@@ -18,7 +18,7 @@
 
 **读取速度测试（Read speed test）**：
 
-KernelSpecialAPC ：
+KernelSpecialAPC ：demo is Ring3_test_demo
 
 读取 1000000 次长度为 30 字节的内存所需时间为：21985 ms
 
