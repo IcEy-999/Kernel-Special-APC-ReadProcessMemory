@@ -4,9 +4,9 @@
 
 ### 优点：
 
-无需获取进程句柄，无需挂靠进程（线程），无需切换CR3，让目标进程自己将内存交出来。
+不需要获取进程句柄。不需要挂靠进程（线程）。不需要切换CR3。使目标进程主动帮助我们读取内存。
 
-（There is no need to get the process handle, attach to the process (thread), switch CR3, and let the target process hand over the memory itself.）
+（There is no need to get a process handle. There is no need to attach a process (thread). There is no need to switch CR3. Make the target process actively help us read the memory.）
 
 ### 缺点：
 
