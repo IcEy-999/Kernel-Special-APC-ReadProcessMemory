@@ -16,9 +16,9 @@
 
 ![tsapctest](https://github.com/IcEy-999/Kernel-Special-APC-ReadProcessMemory/blob/main/Test%20picture/tsapctest.png)
 
-**读取速度测试（Read speed test）**：
+**读取速度测试（Read speed test）  demo is Ring3_test_demo**：
 
-KernelSpecialAPC ：demo is Ring3_test_demo
+KernelSpecialAPC ：
 
 读取 1000000 次长度为 30 字节的内存所需时间为：21985 ms
 
