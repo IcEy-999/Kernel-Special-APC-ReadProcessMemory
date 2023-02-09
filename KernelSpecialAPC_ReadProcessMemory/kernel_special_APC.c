@@ -11,19 +11,19 @@ VOID Apc_Init() {
 	PULONG64 P_KeInitializeApc = (PULONG64)&KeInitializeApc;
 	PULONG64 P_KeInsertQueueApc = (PULONG64)&KeInsertQueueApc;
 
-	//ÌîÈëKeInitializeApcº¯ÊıµØÖ·
+	//å¡«å…¥KeInitializeApcå‡½æ•°åœ°å€
 	*P_KeInitializeApc = 0xfffff8042b62a530;
 
-	//ÌîÈëKeInsertQueueApcº¯ÊıµØÖ·
+	//å¡«å…¥KeInsertQueueApcå‡½æ•°åœ°å€
 	*P_KeInsertQueueApc = 0xfffff8042b63dc10;
 }
 
-//±»¶ÁÄÚ´æµÄ½ø³ÌµÄÏß³ÌÖ÷¶¯µ÷ÓÃ´Ëº¯Êı
+//è¢«è¯»å†…å­˜çš„è¿›ç¨‹çš„çº¿ç¨‹ä¸»åŠ¨è°ƒç”¨æ­¤å‡½æ•°
 VOID Read_Memory(PKAPC APC, PULONG64 MormalRoutine, PReadMemory_Context* PPcontext, PULONG64 Pin_time, PULONG64 s2) {
-	//*s2 ÊÇNULL
+	//*s2 æ˜¯NULL
 	PReadMemory_Context Pcontext = *PPcontext;
 	if ((__rdtsc() - *Pin_time) > 490000000) {
-		return;//Õâ¸öAPC´¥·¢µÄÊ±¼äÌ«ÍíÀ²£¡Ôç¾Í²»µÈËüÀ²£¡
+		return;//è¿™ä¸ªAPCè§¦å‘çš„æ—¶é—´å¤ªæ™šå•¦ï¼æ—©å°±ä¸ç­‰å®ƒå•¦ï¼
 	}
 	__try {
 		memcpy(Pcontext->R0Buffer, Pcontext->Address, Pcontext->Length);
@@ -38,7 +38,7 @@ VOID Read_Memory(PKAPC APC, PULONG64 MormalRoutine, PReadMemory_Context* PPconte
 }
 
 BOOLEAN My_RundownRoutine() {
-	return TRUE;//²åÈëAPCÊ§°ÜÊ±µ÷ÓÃÕâ¸öº¯Êı
+	return TRUE;//æ’å…¥APCå¤±è´¥æ—¶è°ƒç”¨è¿™ä¸ªå‡½æ•°
 }
 
 BOOLEAN New_SpecialApc_Task_Init(PKAPC APC,PETHREAD Thread, PReadMemory_Context Pcontext) {
@@ -46,7 +46,7 @@ BOOLEAN New_SpecialApc_Task_Init(PKAPC APC,PETHREAD Thread, PReadMemory_Context 
 	KeInitializeApc(APC, Thread, 0, (PVOID)Read_Memory, NULL, (PVOID)My_RundownRoutine, 0, (ULONG64)Pcontext);
 }
 
-//Í¨¹ıPID¶ÔÏó¶ÁÈ¡ÄÚ´æ
+//é€šè¿‡PIDå¯¹è±¡è¯»å–å†…å­˜
 BOOLEAN Apc_Read_Process_Memory_By_Pid(ULONG64 Pid, PUCHAR R3_Buffer, ULONG64 Address, ULONG64 Length) {
 	PEPROCESS PEProcess = NULL;
 	if (Old_Pid == Pid) {
@@ -59,16 +59,16 @@ BOOLEAN Apc_Read_Process_Memory_By_Pid(ULONG64 Pid, PUCHAR R3_Buffer, ULONG64 Ad
 	}
 }
 
-//Í¨¹ıEPROCESS¶ÔÏó¶ÁÈ¡ÄÚ´æ
+//é€šè¿‡EPROCESSå¯¹è±¡è¯»å–å†…å­˜
 BOOLEAN Apc_Read_Process_Memory_By_Eprocess(PEPROCESS PEProcess,  PUCHAR R3_Buffer, ULONG64 Address, ULONG64 Length) {
 	
 	PETHREAD Thread = NULL;
 	BOOLEAN Return_Code = FALSE;
 	PUCHAR R0_Buffer = ExAllocatePool(NonPagedPool, Length);
-	ULONG64 in_time = __rdtsc();//¶ÁÈ¡µ±Ç°cpuÊ±¼ä
-	ULONG64 into = 0;//²»ÓÃAPC.InsertedÀ´ÅĞ¶ÏÊÇÒòÎªËü±ä»¯µÄÌ«¿ì£¬Ò×³öbug
+	ULONG64 in_time = __rdtsc();//è¯»å–å½“å‰cpuæ—¶é—´
+	ULONG64 into = 0;//ä¸ç”¨APC.Insertedæ¥åˆ¤æ–­æ˜¯å› ä¸ºå®ƒå˜åŒ–çš„å¤ªå¿«ï¼Œæ˜“å‡ºbug
 	KAPC APC = { 0 };
-	ReadMemory_Context context = { 0 };//ÓÃÓÚºÍ kernelroutine ½»Á÷µÄÉÏÏÂÎÄ
+	ReadMemory_Context context = { 0 };//ç”¨äºå’Œ kernelroutine äº¤æµçš„ä¸Šä¸‹æ–‡
 	context.R0Buffer = R0_Buffer;
 	context.Address = Address;
 	context.Length = Length;
@@ -77,7 +77,7 @@ BOOLEAN Apc_Read_Process_Memory_By_Eprocess(PEPROCESS PEProcess,  PUCHAR R3_Buff
 		return Return_Code;
 	memset(R0_Buffer, 0, Length);
 
-	while ((__rdtsc() - in_time) < 100000000) {//100ºÁÃë¶¼ÕÒ²»µ½ÄÜ²åµÄÏß³Ì£¬ËµÃ÷Õâ¸ö½ø³ÌÊÇ¹Â¶ù£¬²»¶ÁËûÁË
+	while ((__rdtsc() - in_time) < 100000000) {//100æ¯«ç§’éƒ½æ‰¾ä¸åˆ°èƒ½æ’çš„çº¿ç¨‹ï¼Œè¯´æ˜è¿™ä¸ªè¿›ç¨‹æ˜¯å­¤å„¿ï¼Œä¸è¯»ä»–äº†
 		if (!Get_APC_pThrean_By_Process(PEProcess, &Thread)) {
 			continue;
 		}
@@ -86,10 +86,10 @@ BOOLEAN Apc_Read_Process_Memory_By_Eprocess(PEPROCESS PEProcess,  PUCHAR R3_Buff
 		into = 1;
 		break;
 	}
-	if (into == 0) {//²»ÓÃAPC.InsertedÀ´ÅĞ¶ÏÊÇÒòÎªËü±ä»¯µÄÌ«¿ì£¬Ò×³öbug
+	if (into == 0) {//ä¸ç”¨APC.Insertedæ¥åˆ¤æ–­æ˜¯å› ä¸ºå®ƒå˜åŒ–çš„å¤ªå¿«ï¼Œæ˜“å‡ºbug
 		goto EXIT;
 	}
-	while (context.Success != TRUE && (__rdtsc() - in_time) < 500000000 );//Õû¸öº¯Êı×î¶àµÈ´ı500ºÁÃë
+	while (context.Success == FALSE && (__rdtsc() - in_time) < 500000000 );//æ•´ä¸ªå‡½æ•°æœ€å¤šç­‰å¾…500æ¯«ç§’
 	if (context.Success == TRUE) {
 		memcpy(R3_Buffer, R0_Buffer, Length);
 		Return_Code = context.Success;
