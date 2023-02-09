@@ -2,6 +2,10 @@
 
 #### Read process memory by inserting kernel special APC
 
+当然了，如何插入内核特殊APC才是该项目的重点，利用内核特殊APC能做到的事情可太多了。
+
+(Of course, how to insert the kernel special APC is the focus of the project. There are too many things that can be done with the kernel special APC.)
+
 ### 优点：
 
 不需要获取进程句柄。不需要挂靠进程（线程）。不需要切换CR3。使目标进程主动帮助我们读取内存。
