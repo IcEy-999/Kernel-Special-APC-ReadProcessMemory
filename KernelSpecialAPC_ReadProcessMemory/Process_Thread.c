@@ -27,17 +27,17 @@ BOOLEAN Get_pEprocess_By_Pid(ULONG64 Pid, PEPROCESS* pProcess) {
 }
 
 BOOLEAN Get_APC_pThread_By_Process(PEPROCESS Process, PETHREAD* pThread) {
-	PETHREAD targetThrean = NULL;
+	PETHREAD targetThread = NULL;
 	PLIST_ENTRY64 P_ThreadListHead = (PLIST_ENTRY64)((ULONG64)Process + ThreadListHead);
 	PLIST_ENTRY64 LS = P_ThreadListHead->Blink;
 	BOOLEAN Find = FALSE;
 	__try {
 		while (LS != P_ThreadListHead)
 		{
-			targetThrean = (ULONG64)LS - ThreadListEntry;
+			targetThread = (ULONG64)LS - ThreadListEntry;
 			if (*(PUCHAR)((ULONG64)targetThrean + Running) == TRUE && *(PUSHORT)((ULONG64)targetThrean + SpecialApcDisable) == 0) {
 				//线程正在运行 并且 未关闭APC
-				*pThread = targetThrean;
+				*pThread = targetThread;
 				Find = TRUE;
 				break;
 			}
