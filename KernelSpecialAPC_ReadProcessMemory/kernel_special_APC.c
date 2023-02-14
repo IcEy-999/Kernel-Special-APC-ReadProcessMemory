@@ -19,7 +19,7 @@ VOID Apc_Init() {
 }
 
 //被读内存的进程的线程主动调用此函数
-VOID Read_Memory(PKAPC APC, PULONG64 MormalRoutine, PReadMemory_Context* PPcontext, PULONG64 Pin_time, PULONG64 s2) {
+VOID Read_Memory(PKAPC APC, PULONG64 NormalRoutine, PReadMemory_Context* PPcontext, PULONG64 Pin_time, PULONG64 s2) {
 	//*s2 是NULL
 	PReadMemory_Context Pcontext = *PPcontext;
 	if ((__rdtsc() - *Pin_time) > 490000000) {
@@ -78,7 +78,7 @@ BOOLEAN Apc_Read_Process_Memory_By_Eprocess(PEPROCESS PEProcess,  PUCHAR R3_Buff
 	memset(R0_Buffer, 0, Length);
 
 	while ((__rdtsc() - in_time) < 100000000) {//100毫秒都找不到能插的线程，说明这个进程是孤儿，不读他了
-		if (!Get_APC_pThrean_By_Process(PEProcess, &Thread)) {
+		if (!Get_APC_pThread_By_Process(PEProcess, &Thread)) {
 			continue;
 		}
 		New_SpecialApc_Task_Init(&APC, Thread, &context);
