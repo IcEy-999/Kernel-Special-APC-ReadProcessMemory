@@ -2,15 +2,15 @@
 #include<ntifs.h>
 
 
-enum  Eprocess_Members_Offset //×Ô¼ºÏë°ì·¨»ñÈ¡½ø³Ì½á¹¹Æ«ÒÆ
+enum  Eprocess_Members_Offset //è‡ªå·±æƒ³åŠæ³•è·å–è¿›ç¨‹ç»“æ„åç§»
 {
-	ThreadListHead = 0x30,//Ïß³ÌÁ´±í
-	ProcessListEntry = 0x240,//½ø³ÌÁ´±í
-	UniqueProcessId = 0x2e0,//½ø³ÌPID
+	ThreadListHead = 0x30,//çº¿ç¨‹é“¾è¡¨
+	ProcessListEntry = 0x240,//è¿›ç¨‹é“¾è¡¨
+	UniqueProcessId = 0x2e0,//è¿›ç¨‹PID
 
 };
 
-enum Ethread_Members_Offset //×Ô¼ºÏë°ì·¨»ñÈ¡Ïß³Ì½á¹¹Æ«ÒÆ
+enum Ethread_Members_Offset //è‡ªå·±æƒ³åŠæ³•è·å–çº¿ç¨‹ç»“æ„åç§»
 {
 	Running = 0x71,
 	SpecialApcDisable = 0x1e6,
@@ -19,4 +19,4 @@ enum Ethread_Members_Offset //×Ô¼ºÏë°ì·¨»ñÈ¡Ïß³Ì½á¹¹Æ«ÒÆ
 
 BOOLEAN Get_pEprocess_By_Pid(ULONG64 Pid, PEPROCESS* pProcess);
 
-BOOLEAN Get_APC_pThrean_By_Process(PEPROCESS Process, PETHREAD* pThread);
+BOOLEAN Get_APC_pThread_By_Process(PEPROCESS Process, PETHREAD* pThread);
