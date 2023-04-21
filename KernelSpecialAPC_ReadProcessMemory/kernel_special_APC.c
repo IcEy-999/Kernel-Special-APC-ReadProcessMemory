@@ -43,7 +43,8 @@ BOOLEAN My_RundownRoutine() {
 
 BOOLEAN New_SpecialApc_Task_Init(PKAPC APC,PETHREAD Thread, PReadMemory_Context Pcontext) {
 	//DbgBreakPoint();
-	KeInitializeApc(APC, Thread, 0, (PVOID)Read_Memory, NULL, (PVOID)My_RundownRoutine, 0, (ULONG64)Pcontext);
+	//KeInitializeApc(APC, Thread, 0, (PVOID)Read_Memory, NULL, (PVOID)My_RundownRoutine, 0, (ULONG64)Pcontext);
+	KeInitializeApc(APC, Thread, 0, (PVOID)Read_Memory,  (PVOID)My_RundownRoutine,NULL, 0, (ULONG64)Pcontext);
 }
 
 //通过PID对象读取内存
